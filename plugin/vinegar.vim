@@ -98,7 +98,11 @@ endfunction
 function! s:setup_vinegar() abort
   if empty(s:netrw_up)
     " save netrw mapping
-    let s:netrw_up = substitute(maparg('-', 'n'), '\c^:\%(<c-u>\)\=', '', '')
+    if strpart(g:loaded_netrw, 1, strlen(g:loaded_netrw)) < 162
+        let s:netrw_up = substitute(maparg('-', 'n'), '\c^:\%(<c-u>\)\=', '', '')
+    else
+        let s:netrw_up = substitute(maparg('<Plug>NetrwBrowseUpDir', 'n'), '\c^:\%(<c-u>\)\=', '', '')
+    endif
     " saved string is like this:
     " :exe "norm! 0"|call netrw#LocalBrowseCheck(<SNR>172_NetrwBrowseChgDir(1,'../'))<CR>
     " remove <CR> at the end (otherwise raises "E488: Trailing characters")
